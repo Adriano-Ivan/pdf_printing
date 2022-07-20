@@ -1,24 +1,11 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Container from "./components/container/container.component";
+import Graph from "./components/graph/graph.component";
+import PageA4ToEdit from "./components/page-a4-to-edit/page_a4_to_edit.component";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Container />
     </div>
   );
 }
