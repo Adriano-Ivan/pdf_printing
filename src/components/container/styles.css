@@ -15,10 +15,11 @@
 .button-add,
 .button-download {
   font-size: 24px;
+  padding: 12px;
+  border-radius: 14px;
 }
 
 .button-download {
-  background-color: rgb(5, 69, 99);
   margin-top: 42px;
   border: none;
 }

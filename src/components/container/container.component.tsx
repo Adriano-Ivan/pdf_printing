@@ -1,47 +1,44 @@
 import PageA4ToEdit from "../page-a4-to-edit/page_a4_to_edit.component";
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-} from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import "./styles.css";
 import { useState } from "react";
+import MenuModal from "../menu-modal/menu_modal.component";
 
 const Container = () => {
   const [isToShowGraph, setIsToShowGraph] = useState(false);
   const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
+  const [graphWidth, setGraphWidth] = useState(50);
+  const [graphHeight, setGraphHeight] = useState(30);
+  const [graphTitle, setGraphTitle] = useState("");
+  const [isToShowBorderInTheGraph, setIsToShowBorderInTheGraph] =
+    useState(false);
+  const [weightToBorder, setWeightToGraphBorder] = useState(1);
 
   const showModal = () => {
     return (
-      <Modal animation={false} show={isMenuModalOpen}>
-        <ModalHeader>Selecione o que quer exibir</ModalHeader>
-        <ModalBody>
-          <Button
-            onClick={() => {
-              setIsToShowGraph(true);
-            }}
-          >
-            Exibir gráfico
-          </Button>
-        </ModalBody>
-        <ModalFooter>
-          <Button
-            onClick={() => {
-              setIsMenuModalOpen(false);
-            }}
-          >
-            Sair
-          </Button>
-        </ModalFooter>
-      </Modal>
+      <MenuModal
+        isMenuModalOpen={isMenuModalOpen}
+        setGraphTitle={setGraphTitle}
+        setIsMenuModalOpen={setIsMenuModalOpen}
+        setIsToShowGraph={setIsToShowGraph}
+        setIsToShowBorderInTheGraph={setIsToShowBorderInTheGraph}
+        setGraphWidth={setGraphWidth}
+        setWeightToGraphBorder={setWeightToGraphBorder}
+        setGraphHeight={setGraphHeight}
+      />
     );
   };
 
   return (
     <section className={"total-container"}>
-      <PageA4ToEdit isToShowGraph={isToShowGraph} />
+      <PageA4ToEdit
+        weightToBorder={weightToBorder}
+        isToShowBorderInTheGraph={isToShowBorderInTheGraph}
+        graphTitle={graphTitle}
+        graphWidth={graphWidth}
+        graphHeight={graphHeight}
+        isToShowGraph={isToShowGraph}
+      />
       <section className={"menu-area"}>
         <Button
           className={"button-add"}
@@ -49,10 +46,12 @@ const Container = () => {
             setIsMenuModalOpen(true);
           }}
         >
-          Adicionar
+          Adicionar componente
         </Button>
 
-        <Button className={"button-download"}>Imprimir</Button>
+        <Button variant="success" className={"button-download"}>
+          Gerar PDF
+        </Button>
       </section>
       {showModal()}
     </section>
