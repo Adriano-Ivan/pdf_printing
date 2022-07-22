@@ -1,0 +1,10 @@
+.container-options-add {
+  display: flex;
+  justify-content: space-around;
+  padding: 18px;
+  font-size: 26px;
+}
+
+.modal-menu-title {
+  font-size: 22px;
+}

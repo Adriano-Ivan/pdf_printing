@@ -8,6 +8,7 @@ import {
   ModalHeader,
 } from "react-bootstrap";
 import ConfigModal from "../config-modal/config_modal.component";
+import "./styles.css";
 
 interface MenuModalProps {
   isMenuModalOpen: boolean;
@@ -43,8 +44,10 @@ const MenuModal = ({
   return (
     <>
       <Modal animation={false} show={isMenuModalOpen}>
-        <ModalHeader>Selecione o componente que quer adicionar</ModalHeader>
-        <ModalBody>
+        <ModalHeader className={"modal-menu-title"}>
+          Selecione o componente que quer adicionar
+        </ModalHeader>
+        <ModalBody className="container-options-add">
           <Button
             onClick={() => {
               setIsConfigModalOpen(true);
