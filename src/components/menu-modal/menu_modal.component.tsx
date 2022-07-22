@@ -12,23 +12,15 @@ import ConfigModal from "../config-modal/config_modal.component";
 interface MenuModalProps {
   isMenuModalOpen: boolean;
   setIsMenuModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsToShowGraph: React.Dispatch<React.SetStateAction<boolean>>;
-  setGraphWidth: React.Dispatch<React.SetStateAction<number>>;
-  setGraphHeight: React.Dispatch<React.SetStateAction<number>>;
-  setGraphTitle: React.Dispatch<React.SetStateAction<string>>;
-  setIsToShowBorderInTheGraph: React.Dispatch<React.SetStateAction<boolean>>;
-  setWeightToGraphBorder: React.Dispatch<React.SetStateAction<number>>;
+  elementsInSheet: any[];
+  setElementsInSheet: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 const MenuModal = ({
   isMenuModalOpen,
   setIsMenuModalOpen,
-  setGraphWidth,
-  setGraphHeight,
-  setWeightToGraphBorder,
-  setGraphTitle,
-  setIsToShowGraph,
-  setIsToShowBorderInTheGraph,
+  elementsInSheet,
+  setElementsInSheet,
 }: MenuModalProps) => {
   const [isConfigModalOpen, setIsConfigModalOpen] = useState(false);
   const [configType, setConfigType] = useState("");
@@ -37,16 +29,12 @@ const MenuModal = ({
     if (isConfigModalOpen) {
       return (
         <ConfigModal
+          elementsInSheet={elementsInSheet}
+          setElementsInSheet={setElementsInSheet}
           configType={configType}
           isConfigModalOpen={isConfigModalOpen}
           setIsConfigModalOpen={setIsConfigModalOpen}
-          setIsToShowGraph={setIsToShowGraph}
-          setGraphWidth={setGraphWidth}
-          setGraphHeigth={setGraphHeight}
           setIsMenuModalOpen={setIsMenuModalOpen}
-          setIsToShowBorderInTheGraph={setIsToShowBorderInTheGraph}
-          setWeightToGraphBorder={setWeightToGraphBorder}
-          setGraphTitle={setGraphTitle}
         />
       );
     }

@@ -1,3 +1,4 @@
+import { config } from "process";
 import { useState } from "react";
 import {
   Button,
@@ -13,32 +14,25 @@ interface ConfigModalProps {
   isConfigModalOpen: boolean;
   setIsConfigModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsMenuModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsToShowGraph?: React.Dispatch<React.SetStateAction<boolean>>;
-  setGraphWidth?: React.Dispatch<React.SetStateAction<number>>;
-  setGraphHeigth?: React.Dispatch<React.SetStateAction<number>>;
-  setGraphTitle?: React.Dispatch<React.SetStateAction<string>>;
-  setIsToShowBorderInTheGraph?: React.Dispatch<React.SetStateAction<boolean>>;
-  setWeightToGraphBorder: React.Dispatch<React.SetStateAction<number>>;
   configType: string;
+  elementsInSheet: any[];
+  setElementsInSheet: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 const ConfigModal = ({
   isConfigModalOpen,
   setIsConfigModalOpen,
   configType,
-  setIsToShowGraph,
-  setGraphWidth,
-  setGraphHeigth,
+  elementsInSheet,
+  setElementsInSheet,
   setIsMenuModalOpen,
-  setGraphTitle,
-  setIsToShowBorderInTheGraph,
-  setWeightToGraphBorder,
 }: ConfigModalProps) => {
   const [widthConfig, setWidthConfig] = useState(10);
   const [heightConfig, setHeightConfig] = useState(10);
   const [titleConfig, setTitleConfig] = useState("");
   const [isToShowBorderConfig, setIsToShowBorderConfig] = useState(false);
   const [weightToBorderConfig, setWeightToBorderConfig] = useState(1);
+  const [imageFileConfig, setImageFileConfig] = useState("");
 
   const renderTitle = () => {
     if (configType.toLowerCase().trim() === "graph") {
@@ -75,32 +69,47 @@ const ConfigModal = ({
 
   const conditionsAreCorrect = () => {
     return (
-      configType.toLocaleLowerCase().trim() === "graph" &&
       widthConfig >= 10 &&
       widthConfig <= 100 &&
       heightConfig >= 10 &&
-      widthConfig <= 100
+      widthConfig <= 100 &&
+      weightToBorderConfig >= 1
     );
+  };
+
+  const returnCommonAttributes = () => {
+    return {
+      componentType: configType,
+      width: widthConfig,
+      height: heightConfig,
+      title: titleConfig,
+      borderWeight: weightToBorderConfig,
+      isToShowBorder: isToShowBorderConfig,
+    };
   };
 
   const saveConfig = () => {
     setIsConfigModalOpen(false);
     setIsMenuModalOpen(false);
 
-    if (
+    if (conditionsAreCorrect() && configType.trim().toLowerCase() === "graph") {
+      setElementsInSheet([
+        ...elementsInSheet,
+        {
+          ...returnCommonAttributes(),
+        },
+      ]);
+    } else if (
       conditionsAreCorrect() &&
-      setGraphWidth &&
-      setIsToShowGraph &&
-      setGraphHeigth &&
-      setGraphTitle &&
-      setIsToShowBorderInTheGraph
+      configType.trim().toLocaleLowerCase() === "uploaded-image"
     ) {
-      setGraphWidth(widthConfig);
-      setGraphHeigth(heightConfig);
-      setGraphTitle(titleConfig);
-      setWeightToGraphBorder(weightToBorderConfig);
-      setIsToShowBorderInTheGraph(isToShowBorderConfig);
-      setIsToShowGraph(true);
+      setElementsInSheet([
+        ...elementsInSheet,
+        {
+          ...returnCommonAttributes(),
+          image: imageFileConfig,
+        },
+      ]);
     }
 
     if (isToShowWarningAboutWrongConfig()) {
@@ -113,7 +122,7 @@ const ConfigModal = ({
       e.target.value = 100;
     }
 
-    setWidthConfig(Number(e.target.value));
+    setWidthConfig(Math.abs(Number(e.target.value)));
   };
 
   const defineHeight = (e: any) => {
@@ -121,7 +130,7 @@ const ConfigModal = ({
       e.target.value = 100;
     }
 
-    setHeightConfig(Number(e.target.value));
+    setHeightConfig(Math.abs(Number(e.target.value)));
   };
 
   const defineTitle = (e: any) => {
@@ -141,11 +150,27 @@ const ConfigModal = ({
     setWeightToBorderConfig(Math.abs(Number(e.target.value)));
   };
 
+  const defineImageFile = (e: any) => {
+    const imageObject: any = e.target.files[0];
+    console.log(imageObject);
+    setImageFileConfig(URL.createObjectURL(imageObject));
+  };
+
   return (
     <Modal show={isConfigModalOpen}>
       <ModalHeader>{renderTitle()}</ModalHeader>
       <ModalBody>
         <form className="container-config-options">
+          {configType.trim().toLocaleLowerCase() === "uploaded-image" ? (
+            <label className="config-label config-label-title">
+              <span className="config-label-text">Imagem:</span>
+              <input
+                onChange={defineImageFile}
+                type="file"
+                name="image"
+              ></input>
+            </label>
+          ) : null}
           <label className="config-label config-label-title">
             <span className="config-label-text">Título:</span>
             <input
@@ -191,6 +216,7 @@ const ConfigModal = ({
             <input
               onChange={defineIsBorderOrNot}
               type="radio"
+              checked
               value="no"
               name="borda_ou_nao"
             ></input>

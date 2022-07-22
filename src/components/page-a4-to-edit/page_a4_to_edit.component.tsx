@@ -1,70 +1,43 @@
+import { IncomingMessage } from "http";
 import React, { useRef } from "react";
-import Draggable, { DraggableCore } from "react-draggable";
-import ReactECharts from "echarts-for-react";
+import Graph from "../graph/graph.component";
+import Image from "../image/image.component";
+
 import "./styles.css";
 
 interface PageA4ToEditProps {
-  isToShowGraph: boolean;
-  graphWidth: number;
-  graphHeight: number;
-  graphTitle: string;
-  isToShowBorderInTheGraph: boolean;
-  weightToBorder: number;
+  elementsInSheet: any[];
+  refToPrint: React.MutableRefObject<null>;
 }
 
-const options = {
-  grid: { top: 8, right: 8, bottom: 24, left: 36 },
-  xAxis: {
-    type: "category",
-    data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-  },
-  yAxis: {
-    type: "value",
-  },
-  series: [
-    {
-      data: [820, 932, 901, 934, 1290, 1330, 1320],
-      type: "line",
-      smooth: true,
-    },
-  ],
-  tooltip: {
-    trigger: "axis",
-  },
-};
-
-const PageA4ToEdit = ({
-  isToShowGraph,
-  graphWidth,
-  graphHeight,
-  graphTitle,
-  isToShowBorderInTheGraph,
-  weightToBorder,
-}: PageA4ToEditProps) => {
-  const renderGraph = () => {
-    return (
-      <div
-        style={{
-          width: `${graphWidth}%`,
-          backgroundColor: "#eeeeee",
-          height: `${graphHeight}%`,
-          border: isToShowBorderInTheGraph
-            ? `${weightToBorder}px solid #000`
-            : undefined,
-        }}
-        className="container-graph"
-      >
-        <h1>{graphTitle}</h1>
-        <ReactECharts option={options} />
-      </div>
-    );
-  };
-
+const PageA4ToEdit = ({ elementsInSheet, refToPrint }: PageA4ToEditProps) => {
   return (
-    <section className={"container-page-a4-to-edit"}>
-      <Draggable bounds={"parent"}>
-        {isToShowGraph ? renderGraph() : <span></span>}
-      </Draggable>
+    <section ref={refToPrint} className={"container-page-a4-to-edit"}>
+      {elementsInSheet.map((element: any, i) => {
+        if (element.componentType.toLocaleLowerCase().trim() === "graph") {
+          return (
+            <Graph
+              key={i + element.title + element.height}
+              isToShowBorderInTheGraph={element.isToShowBorder}
+              weightToBorder={element.borderWeight}
+              graphTitle={element.title}
+              graphHeight={element.height}
+              graphWidth={element.width}
+            />
+          );
+        } else {
+          return (
+            <Image
+              image={element.image}
+              imageHeight={element.height}
+              imageWidth={element.width}
+              imageTitle={element.title}
+              isToShowBorderInTheImage={element.isToShowBorder}
+              weightToBorder={element.isToShowBorder}
+            />
+          );
+        }
+      })}
     </section>
   );
 };

@@ -1,43 +1,45 @@
 import PageA4ToEdit from "../page-a4-to-edit/page_a4_to_edit.component";
 import { Button } from "react-bootstrap";
 import "./styles.css";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import MenuModal from "../menu-modal/menu_modal.component";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 
 const Container = () => {
-  const [isToShowGraph, setIsToShowGraph] = useState(false);
   const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
-  const [graphWidth, setGraphWidth] = useState(50);
-  const [graphHeight, setGraphHeight] = useState(30);
-  const [graphTitle, setGraphTitle] = useState("");
-  const [isToShowBorderInTheGraph, setIsToShowBorderInTheGraph] =
-    useState(false);
-  const [weightToBorder, setWeightToGraphBorder] = useState(1);
+  const [elementsInSheet, setElementsInSheet] = useState<any[]>([]);
+  const refToPrintA4 = useRef<any>();
 
   const showModal = () => {
     return (
       <MenuModal
+        elementsInSheet={elementsInSheet}
+        setElementsInSheet={setElementsInSheet}
         isMenuModalOpen={isMenuModalOpen}
-        setGraphTitle={setGraphTitle}
         setIsMenuModalOpen={setIsMenuModalOpen}
-        setIsToShowGraph={setIsToShowGraph}
-        setIsToShowBorderInTheGraph={setIsToShowBorderInTheGraph}
-        setGraphWidth={setGraphWidth}
-        setWeightToGraphBorder={setWeightToGraphBorder}
-        setGraphHeight={setGraphHeight}
       />
     );
   };
 
+  const printA4Sheet = (e: any) => {
+    html2canvas(refToPrintA4.current).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({
+        orientation: "portrait",
+      });
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("relatory.pdf");
+    });
+  };
   return (
     <section className={"total-container"}>
       <PageA4ToEdit
-        weightToBorder={weightToBorder}
-        isToShowBorderInTheGraph={isToShowBorderInTheGraph}
-        graphTitle={graphTitle}
-        graphWidth={graphWidth}
-        graphHeight={graphHeight}
-        isToShowGraph={isToShowGraph}
+        elementsInSheet={elementsInSheet}
+        refToPrint={refToPrintA4}
       />
       <section className={"menu-area"}>
         <Button
@@ -49,7 +51,11 @@ const Container = () => {
           Adicionar componente
         </Button>
 
-        <Button variant="success" className={"button-download"}>
+        <Button
+          variant="success"
+          className={"button-download"}
+          onClick={printA4Sheet}
+        >
           Gerar PDF
         </Button>
       </section>
