@@ -6,6 +6,12 @@ Ele pode ser visulizado na seguinte página [PDF-Printing](https://pdf-printing-
 
 ## Para executar o projeto, siga os passos:
 
+Faça o clone do projeto:
+
+### git clone https://github.com/Adriano-Ivan/pdf_printing.git
+
+Entre na pasta raiz do projeto.
+
 Na pasta raiz do projeto, após ter certeza de que está usando o Node.JS 16.13.0, instale as dependências do projeto ao executar o comando:
 
 ### `npm install`

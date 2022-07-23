@@ -166,7 +166,9 @@ const ConfigModal = ({
   };
   return (
     <Modal show={isConfigModalOpen}>
-      <ModalHeader>{renderTitle()}</ModalHeader>
+      <ModalHeader>
+        <h3>{renderTitle()}</h3>
+      </ModalHeader>
       <ModalBody>
         <form className="container-config-options">
           {configType.trim().toLocaleLowerCase() === "uploaded-image" ? (
@@ -179,6 +181,7 @@ const ConfigModal = ({
               ></input>
             </label>
           ) : null}
+
           <label className="config-label config-label-title">
             <span className="config-label-text">Título:</span>
             <input
@@ -212,10 +215,14 @@ const ConfigModal = ({
           </label>
 
           <label className=" config-label-options-border">
-            <span className="config-label-text">Deseja borda ?</span>
+            <span className="config-label-text">
+              Deseja exibir borda e definir cor e espessura ?
+            </span>
+            <br></br>
             <input
               onChange={defineIsBorderOrNot}
               type="radio"
+              className={`radio-button-yes-or-not`}
               checked={isToShowBorderConfig}
               value="yes"
               name="borda_ou_nao"
@@ -225,31 +232,40 @@ const ConfigModal = ({
             <input
               onChange={defineIsBorderOrNot}
               type="radio"
+              style={{ marginLeft: "40px" }}
+              className={`radio-button-yes-or-not`}
               checked={!isToShowBorderConfig}
               value="no"
               name="borda_ou_nao"
             ></input>
             {"Não "}
           </label>
-          <label className="config-label">
-            <span className="config-label-text">Espessura da borda (px):</span>
-            <input
-              onChange={defineWeight}
-              type="number"
-              defaultValue={weightToBorderConfig}
-              min={1}
-            ></input>
-          </label>
 
-          <label className="config-label">
-            <span className="config-label-text">Cor da borda</span>
-            <input
-              onChange={defineBorderColor}
-              type="color"
-              defaultValue={borderColorConfig}
-              min={1}
-            ></input>
-          </label>
+          {isToShowBorderConfig && (
+            <>
+              <label className="config-label">
+                <span className="config-label-text">
+                  Espessura da borda (px):
+                </span>
+                <input
+                  onChange={defineWeight}
+                  type="number"
+                  defaultValue={weightToBorderConfig}
+                  min={1}
+                ></input>
+              </label>
+
+              <label className="config-label">
+                <span className="config-label-text">Cor da borda</span>
+                <input
+                  onChange={defineBorderColor}
+                  type="color"
+                  defaultValue={borderColorConfig}
+                  min={1}
+                ></input>
+              </label>
+            </>
+          )}
         </form>
       </ModalBody>
       <ModalFooter>

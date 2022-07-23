@@ -45,7 +45,7 @@ const MenuModal = ({
     <>
       <Modal animation={false} show={isMenuModalOpen}>
         <ModalHeader className={"modal-menu-title"}>
-          Selecione o componente que quer adicionar
+          <h3>Selecione o componente </h3>
         </ModalHeader>
         <ModalBody className="container-options-add">
           <Button
@@ -53,6 +53,7 @@ const MenuModal = ({
               setIsConfigModalOpen(true);
               setConfigType("graph");
             }}
+            className="button-menu"
           >
             Configurar gráfico
           </Button>
@@ -61,6 +62,7 @@ const MenuModal = ({
               setIsConfigModalOpen(true);
               setConfigType("uploaded-image");
             }}
+            className="button-menu"
           >
             Configurar imagem
           </Button>

@@ -25,9 +25,11 @@ const Container = () => {
   const printA4Sheet = (e: any) => {
     html2canvas(refToPrintA4.current).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
+
       const pdf = new jsPDF({
         orientation: "portrait",
       });
+
       const imgProps = pdf.getImageProperties(imgData);
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
@@ -35,6 +37,7 @@ const Container = () => {
       pdf.save("relatory.pdf");
     });
   };
+
   return (
     <section className={"total-container"}>
       <PageA4ToEdit

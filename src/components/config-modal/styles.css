@@ -28,3 +28,12 @@
 .config-label-text {
   margin-bottom: 5px;
 }
+
+.radio-button-yes-or-not {
+  display: inline-flex;
+  width: 1.2rem;
+  height: 1.2rem;
+  background-color: red;
+  margin: 25px;
+  padding: 20px;
+}

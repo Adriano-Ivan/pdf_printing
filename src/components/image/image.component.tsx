@@ -27,10 +27,6 @@ const Image = ({
         style={{
           height: `${imageHeight}%`,
           width: `${imageWidth}%`,
-          // backgroundColor: "#eeeeee",
-          // border: isToShowBorderInTheImage
-          //   ? `${weightToBorder}px solid #000`
-          //   : undefined,
         }}
       >
         <h2 style={{ textAlign: "center" }}>{imageTitle}</h2>
