@@ -20,4 +20,4 @@ Após o término das instalações, basta rodar o projeto com o comando:
 
 ### `npm start`
 
-Automaticamente, uma tela será aberta no navegador padrão do sistema operacional.
+Bastando alguns minutos, automaticamente uma tela será aberta no navegador padrão do sistema operacional.
