@@ -33,6 +33,7 @@ const ConfigModal = ({
   const [isToShowBorderConfig, setIsToShowBorderConfig] = useState(false);
   const [weightToBorderConfig, setWeightToBorderConfig] = useState(1);
   const [imageFileConfig, setImageFileConfig] = useState("");
+  const [borderColorConfig, setBorderColorConfig] = useState("#000000");
 
   const renderTitle = () => {
     if (configType.toLowerCase().trim() === "graph") {
@@ -85,6 +86,7 @@ const ConfigModal = ({
       title: titleConfig,
       borderWeight: weightToBorderConfig,
       isToShowBorder: isToShowBorderConfig,
+      borderColor: borderColorConfig,
     };
   };
 
@@ -156,6 +158,12 @@ const ConfigModal = ({
     setImageFileConfig(URL.createObjectURL(imageObject));
   };
 
+  const defineBorderColor = (e: any) => {
+    const color: any = e.target.value;
+
+    console.log(color);
+    setBorderColorConfig(color);
+  };
   return (
     <Modal show={isConfigModalOpen}>
       <ModalHeader>{renderTitle()}</ModalHeader>
@@ -208,6 +216,7 @@ const ConfigModal = ({
             <input
               onChange={defineIsBorderOrNot}
               type="radio"
+              checked={isToShowBorderConfig}
               value="yes"
               name="borda_ou_nao"
             ></input>
@@ -216,7 +225,7 @@ const ConfigModal = ({
             <input
               onChange={defineIsBorderOrNot}
               type="radio"
-              checked
+              checked={!isToShowBorderConfig}
               value="no"
               name="borda_ou_nao"
             ></input>
@@ -228,6 +237,16 @@ const ConfigModal = ({
               onChange={defineWeight}
               type="number"
               defaultValue={weightToBorderConfig}
+              min={1}
+            ></input>
+          </label>
+
+          <label className="config-label">
+            <span className="config-label-text">Cor da borda</span>
+            <input
+              onChange={defineBorderColor}
+              type="color"
+              defaultValue={borderColorConfig}
               min={1}
             ></input>
           </label>

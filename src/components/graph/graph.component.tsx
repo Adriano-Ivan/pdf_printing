@@ -27,10 +27,12 @@ interface GraphProps {
   graphHeight: number;
   isToShowBorderInTheGraph: boolean;
   weightToBorder: number;
+  borderColor: string;
   graphTitle: string;
 }
 const Graph = ({
   graphWidth,
+  borderColor,
   graphHeight,
   isToShowBorderInTheGraph,
   weightToBorder,
@@ -47,7 +49,7 @@ const Graph = ({
           backgroundColor: "#eeeeee",
           height: `${graphHeight}%`,
           border: isToShowBorderInTheGraph
-            ? `${weightToBorder}px solid #000`
+            ? `${weightToBorder}px solid ${borderColor}`
             : undefined,
         }}
       >

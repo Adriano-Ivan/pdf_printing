@@ -6,12 +6,14 @@ interface ImageProps {
   isToShowBorderInTheImage: boolean;
   weightToBorder: boolean;
   imageTitle: string;
+  borderColor: string;
   image: string;
 }
 const Image = ({
   imageWidth,
   imageHeight,
   isToShowBorderInTheImage,
+  borderColor,
   weightToBorder,
   imageTitle,
   image,
@@ -25,17 +27,23 @@ const Image = ({
         style={{
           height: `${imageHeight}%`,
           width: `${imageWidth}%`,
-          backgroundColor: "#eeeeee",
-          border: isToShowBorderInTheImage
-            ? `${weightToBorder}px solid #000`
-            : undefined,
+          // backgroundColor: "#eeeeee",
+          // border: isToShowBorderInTheImage
+          //   ? `${weightToBorder}px solid #000`
+          //   : undefined,
         }}
       >
         <h2 style={{ textAlign: "center" }}>{imageTitle}</h2>
         <img
           src={image}
           alt={imageTitle}
-          style={{ height: "100%", width: "100%" }}
+          style={{
+            height: "100%",
+            width: "100%",
+            border: isToShowBorderInTheImage
+              ? `${weightToBorder}px solid ${borderColor}`
+              : undefined,
+          }}
         />
       </div>
     </Draggable>

@@ -23,17 +23,19 @@ const PageA4ToEdit = ({ elementsInSheet, refToPrint }: PageA4ToEditProps) => {
               graphTitle={element.title}
               graphHeight={element.height}
               graphWidth={element.width}
+              borderColor={element.borderColor}
             />
           );
         } else {
           return (
             <Image
               image={element.image}
+              borderColor={element.borderColor}
               imageHeight={element.height}
               imageWidth={element.width}
               imageTitle={element.title}
               isToShowBorderInTheImage={element.isToShowBorder}
-              weightToBorder={element.isToShowBorder}
+              weightToBorder={element.borderWeight}
             />
           );
         }
